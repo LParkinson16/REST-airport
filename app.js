@@ -3,8 +3,8 @@ const airports = require('./airports')
 
 const app = express()
 
-app.use(express.json)
-app.get("/airports", (res)=>{
+app.use(express.json())
+app.get("/airports", (req, res)=>{
     res.json(airports)
 })
 
