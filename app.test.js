@@ -40,18 +40,27 @@ describe("airport tests", () => {
             });
     });
 
-    test("making a successful Delete request", (done) => {
-        const cutAirport = airports[airports.length -1]
+    test("making a specific GET request", (done) => {
+        const expectedPort = {
+            "icao": "00IS",
+            "iata": "",
+            "name": "Hayenga's Cant Find Farms Airport",
+            "city": "Kings",
+            "state": "Illinois",
+            "country": "US",
+            "elevation": 820,
+            "lat": 40.0256004333,
+            "lon": -89.1229019165,
+            "tz": "America/Chicago"
+        }
         request(app)
-            .get('/airports')
-            .send(cutAirport)
-            .expect(202)
-            .end(() => {
-                expect(airports).toEqual(cutAirport);
-                return done();
+            .get('/airports/icao.00IS')
+            .expect(200)
+            .end((res) => {
+                expect(res.body).toEqual(expectedPort);
+                done();
             });
-       
-        });
+    });
 
 
 });
