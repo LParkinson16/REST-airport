@@ -40,27 +40,39 @@ describe("airport tests", () => {
             });
     });
 
-    test("making a specific GET request", (done) => {
-        const expectedPort = {
-            "icao": "00IS",
-            "iata": "",
-            "name": "Hayenga's Cant Find Farms Airport",
-            "city": "Kings",
-            "state": "Illinois",
-            "country": "US",
-            "elevation": 820,
-            "lat": 40.0256004333,
-            "lon": -89.1229019165,
-            "tz": "America/Chicago"
-        }
+    test("retrieving a specific airport", (done) => {
         request(app)
-            .get('/airports/icao.00IS')
+            .get('/airports/00IS')
             .expect(200)
-            .end((res) => {
-                expect(res.body).toEqual(expectedPort);
+            .end(() => {
                 done();
             });
     });
 
+
+    test("update a specific airport", async () => {
+        const updateAirport = {
+          icao: "EXAS",
+          iata: "",
+          name: "Lowell Field",
+          city: "Arizona",
+          state: "Alaska",
+          country: "US",
+          elevation: 600,
+          lat: 59.94919968,
+          lon: -151.695999146,
+          tz: "America/Anchorage",
+        };
+        const response = await request(app)
+          .put("/airports/00MO")
+          .send(updateAirport);
+        expect(response.status).toBe(200);
+      });
+
+
+      test("delete a specific airport", async () => {
+        const response = await request(app).delete("/airports/00AL");
+        expect(response.status).toBe(200);
+      });
 
 });
